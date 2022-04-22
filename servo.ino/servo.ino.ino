@@ -10,9 +10,6 @@ void setup() {
   Serial.begin(9600);
   x.attach(9);
   y.attach(10);
-  // Serial.print(width);
-  //Serial.print("\t");
-  //Serial.println(height);
   x.write(xpos);
   y.write(ypos);
 }
@@ -24,12 +21,11 @@ void loop() {
     int x_mid, y_mid;
     if (Serial.read() == 'X')
     {
-      x_mid = Serial.parseInt();  // read center x-coordinate
+      x_mid = Serial.parseInt();  // x-coordinate of center of the face
       if (Serial.read() == 'Y')
-        y_mid = Serial.parseInt(); // read center y-coordinate
+        y_mid = Serial.parseInt(); //y-coordinate of center of the face
     }
-    /* adjust the servo within the squared region if the coordinates
-        is outside it
+    /* Move the servos if face is outside the allowed region
     */
     if (x_mid > width / 2 + 30)
       xpos -= angle;
@@ -41,7 +37,7 @@ void loop() {
       ypos += angle;
 
 
-    // if the servo degree is outside its range
+    // if the servo angle is outside its range
     if (xpos >= 180)
       xpos = 180;
     else if (xpos <= 0)
@@ -54,10 +50,6 @@ void loop() {
     x.write(xpos);
     y.write(ypos);
 
-    // used for testing
-    //Serial.print("\t");
-    // Serial.print(x_mid);
-    // Serial.print("\t");
-    // Serial.println(y_mid);
+
   }
 }
